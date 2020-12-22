@@ -16,14 +16,13 @@ require('colors');
 // route files
 const auth = require('./api/auth')
 const user = require('./api/user')
+const perform = require('./api/history')
 // load env variables
 const app = express();
 // Body Parser
 app.use(express.json());
 // sanitize Data
 app.use(mongoSanitize());
-// set security header
-app.use(helmet());
 // xss-clean
 app.use(xss());
 // Rate Limit
@@ -32,8 +31,6 @@ const limiter = rateLimit({
     max: 10000, // limit each IP to 100 requests per windowMs
 });
 app.use(limiter);
-// hpp
-app.use(hpp());
 // cors
 app.use(cors());
 
@@ -59,12 +56,13 @@ app.use(express.static(path.join(__dirname, './public'), options));
 // All other routes should redirect to the index.html
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/user', user);
+app.use('/api/v1/work', perform)
 
-// app.get('*.*', express.static('./public/frontend')); // production
+app.get('*.*', express.static('./public/frontend')); // production
 
-// app.all('*', (req, res) => {
-//     res.status(200).sendFile('/', {root: './public/frontend'});
-// }); // production
+app.all('*', (req, res) => {
+    res.status(200).sendFile('/', {root: './public/frontend'});
+}); // production
 
 app.use(errorHandler);
 const PORT = process.env.PORT || 5000;

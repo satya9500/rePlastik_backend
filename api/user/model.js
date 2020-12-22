@@ -23,13 +23,6 @@ const userSchema = new mongoose.Schema({
     },
     username: {
         type: String,
-        required: [true, 'Please provide a username'],
-        unique: true,
-    },
-    role: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Role',
-      required: true
     },
     createdAt: {
         type: Date,
@@ -37,9 +30,7 @@ const userSchema = new mongoose.Schema({
     },
     lastActive: {
         type: Date
-    },
-    resetPasswordToken: String,
-    resetPasswordTokenExpire: Date,
+    }
 });
 
 // Encrypt password using bcrypt
@@ -52,7 +43,7 @@ userSchema.pre('save', async function(next) {
 });
 
 userSchema.methods.getSignedJwtToken = function() {
-    return jwt.sign({id: this._id}, process.env.JWT_SECRET, {
+    return jwt.sign({id: this._id, name:this.name, email: this.email}, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN,
     });
 };

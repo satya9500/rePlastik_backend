@@ -3,6 +3,8 @@ const asyncHandler = require('../../middleware/async');
 const User = require('../user/model');
 
 exports.register = asyncHandler(async (req, res, next)=>{
+    req.body.name = req.body.fullName;
+    console.log(req.body);
     const {name, email, password, username} = req.body;
     const user = await User.create({name, email, password, username});
     sendTokenResponse(user, 200, res);
