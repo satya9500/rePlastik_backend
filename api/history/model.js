@@ -14,11 +14,8 @@ const historySchema = new mongoose.Schema({
         type: String,
         required: [true, 'Type of plastic not specified']
     },
-    ytVideos: {
-        type: [String]
-    },
-    articlesLink: {
-        type: [String]
+    productName: {
+      type: String
     },
     createdAt: {
         type: Date,
