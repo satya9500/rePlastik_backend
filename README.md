@@ -59,7 +59,7 @@ JWT_EXPIRES_IN=<JWT_Token_Expiration_time>\
 JWT_COOKIE_EXPIRE=<JWT_Cookie_Expiration time>\
 YT_API_KEY=<Youtube_API_Key>\
 IMGBB_KEY=<IMGBB_API_KEY>\
-NEWS_API_KEY=<newsapi.org api key>\
+NEWS_API_KEY=<newsapi.org api key>
 
 **Steps**
 1. `git clone https://github.com/satya9500/rePlastik_backend.git`
