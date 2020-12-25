@@ -49,10 +49,22 @@ Generates Visual reports using plotly.
 ![Search Page](Screenshots/search.png)
 <hr>
 
-#### How to run 
-**Make sure you have Angular 10 installed and flask + nodejs backend are running**
-1. `git clone https://github.com/satya9500/rePlastik_frontend.git`
-2. `cd rePlastik_frontend`
+#### How to run nodejs server
+**You need to create a .env file containing following information**
+
+PORT=3000\
+MONGO_URI=<mongodb_uri>\
+JWT_SECRET=<secret_ket>\
+JWT_EXPIRES_IN=<JWT_Token_Expiration_time>\
+JWT_COOKIE_EXPIRE=<JWT_Cookie_Expiration time>\
+YT_API_KEY=<Youtube_API_Key>\
+IMGBB_KEY=<IMGBB_API_KEY>\
+NEWS_API_KEY=<newsapi.org api key>\
+
+**Steps**
+1. `git clone https://github.com/satya9500/rePlastik_backend.git`
+2. `cd rePlastik_backend`
 3. `npm i`
-4. `ng serve --proxy-config proxy.conf.json`
+4. `npm start`
+5. `Server will run on your defined port in .env`
 
