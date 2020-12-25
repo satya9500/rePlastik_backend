@@ -1,10 +1,8 @@
 const express = require('express');
 const errorHandler = require('./middleware/error');
 const mongoSanitize = require('express-mongo-sanitize');
-const helmet = require('helmet');
 const xss = require('xss-clean');
 const cors = require('cors');
-const hpp = require('hpp');
 const fileUpload = require('express-fileupload');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
@@ -56,7 +54,7 @@ app.use(express.static(path.join(__dirname, './public'), options));
 // All other routes should redirect to the index.html
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/user', user);
-app.use('/api/v1/work', perform)
+app.use('/api/v1/work', perform);
 
 app.get('*.*', express.static('./public/frontend')); // production
 

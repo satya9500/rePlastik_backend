@@ -9,23 +9,27 @@ exports.findAndStore = asyncHandler(async (req, res, next) => {
     if(!req.files) {
         return next(new ErrorResponse('Please Upload an Image!', 400))
     }
-    const productName = req.body.productName;
     const image = req.files.img;
-    const userId = req.user.id;
     const fileName = Date.now();
     fs.writeFileSync(`./public/uploads/${fileName}`, image.data);
     const uploadData = await imgbbUploader(process.env.IMGBB_KEY, `./public/uploads/${fileName}`);
-    // flask api
-    const plasticType = `PVC`;
-    const searchQuery = `How to recycle ${plasticType}`;
-    const ytResult = await axios.get(`https://www.googleapis.com/youtube/v3/search?key=${process.env.YT_API_KEY}&type=video&part=snippet&maxResults=10&q=${searchQuery}`);
-    await History.create({userId, imageLink: uploadData.url, plasticType, productName});
     return res.status(200).json({
         success:true,
         imageUrl:uploadData.url,
-        ytResult: ytResult.data
     })
 });
+
+exports.getYtVideos = asyncHandler(async(req,res,next)=>{
+    const plasticType = req.body.plasticType||`PVC`;
+    await History.create({userId: req.user.id, imageLink: req.body.imageUrl, plasticType, productName: req.body.productName});
+    const plasticProduct = req.body.plasticProduct;
+    const searchQuery = `How to recycle ${plasticType} ${plasticProduct}`;
+    const ytResult = await axios.get(`https://www.googleapis.com/youtube/v3/search?key=${process.env.YT_API_KEY}&type=video&part=snippet&maxResults=10&q=${searchQuery}`);
+    return res.status(200).json({
+        success:true,
+        ytResult: ytResult.data
+    })
+})
 
 exports.getNews = asyncHandler(async(req,res,next)=> {
     const query=req.body.query;
